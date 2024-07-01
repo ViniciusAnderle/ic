@@ -1,12 +1,21 @@
 <?php
+// CustomerController.php
 
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use App\Mediators\ReservationMediatorInterface;
 
 class CustomerController extends Controller
 {
+    protected $mediator;
+
+    public function __construct(ReservationMediatorInterface $mediator)
+    {
+        $this->mediator = $mediator;
+    }
+
     public function index()
     {
         $customers = Customer::all();
@@ -26,7 +35,7 @@ class CustomerController extends Controller
             'phone' => 'nullable',
         ]);
 
-        Customer::create($request->all());
+        $this->mediator->createCustomer($request->all());
 
         return redirect()->route('customers.index')
             ->with('success', 'Customer created successfully.');
@@ -50,7 +59,7 @@ class CustomerController extends Controller
             'phone' => 'nullable',
         ]);
 
-        $customer->update($request->all());
+        $this->mediator->updateCustomer($customer, $request->all());
 
         return redirect()->route('customers.index')
             ->with('success', 'Customer updated successfully');
@@ -58,7 +67,7 @@ class CustomerController extends Controller
 
     public function destroy(Customer $customer)
     {
-        $customer->delete();
+        $this->mediator->deleteCustomer($customer);
 
         return redirect()->route('customers.index')
             ->with('success', 'Customer deleted successfully');

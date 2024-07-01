@@ -4,9 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Hotel;
 use Illuminate\Http\Request;
+use App\Mediators\ReservationMediatorInterface;
 
 class HotelController extends Controller
 {
+    protected $mediator;
+
+    public function __construct(ReservationMediatorInterface $mediator)
+    {
+        $this->mediator = $mediator;
+    }
+
     public function index()
     {
         $hotels = Hotel::all();
@@ -26,7 +34,7 @@ class HotelController extends Controller
             'description' => 'nullable',
         ]);
 
-        Hotel::create($request->all());
+        $this->mediator->createHotel($request->all());
 
         return redirect()->route('hotels.index')
             ->with('success', 'Hotel created successfully.');
@@ -50,7 +58,7 @@ class HotelController extends Controller
             'description' => 'nullable',
         ]);
 
-        $hotel->update($request->all());
+        $this->mediator->updateHotel($hotel, $request->all());
 
         return redirect()->route('hotels.index')
             ->with('success', 'Hotel updated successfully');
@@ -58,7 +66,7 @@ class HotelController extends Controller
 
     public function destroy(Hotel $hotel)
     {
-        $hotel->delete();
+        $this->mediator->deleteHotel($hotel);
 
         return redirect()->route('hotels.index')
             ->with('success', 'Hotel deleted successfully');

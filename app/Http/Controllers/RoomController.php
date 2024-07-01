@@ -1,44 +1,49 @@
 <?php
+// RoomController.php
 
 namespace App\Http\Controllers;
 
 use App\Models\Room;
 use App\Models\Hotel;
-
 use Illuminate\Http\Request;
+use App\Mediators\ReservationMediatorInterface;
 
 class RoomController extends Controller
 {
+    protected $mediator;
+
+    public function __construct(ReservationMediatorInterface $mediator)
+    {
+        $this->mediator = $mediator;
+    }
+
     public function index()
     {
         $rooms = Room::all();
         return view('rooms.index', compact('rooms'));
     }
 
-
     public function create()
     {
-        $hotels = Hotel::all(); // Recupere todos os hotéis do banco de dados
-    
+        $hotels = Hotel::all();
         return view('rooms.create', compact('hotels'));
     }
-    
 
     public function store(Request $request)
     {
         $request->validate([
-            'hotel_id' => 'required|exists:hotels,id', // Garante que o hotel_id existe na tabela de hotéis
+            'hotel_id' => 'required|exists:hotels,id',
             'room_number' => 'required',
             'type' => 'nullable',
             'price' => 'nullable',
         ]);
-    
-        Room::create($request->all());
-    
+
+        $this->mediator->createRoom($request->all());
+
         return redirect()->route('rooms.index')
             ->with('success', 'Room created successfully.');
     }
-    
+
     public function show(Room $room)
     {
         return view('rooms.show', compact('room'));
@@ -46,7 +51,8 @@ class RoomController extends Controller
 
     public function edit(Room $room)
     {
-        return view('rooms.edit', compact('room'));
+        $hotels = Hotel::all();
+        return view('rooms.edit', compact('room', 'hotels'));
     }
 
     public function update(Request $request, Room $room)
@@ -58,7 +64,7 @@ class RoomController extends Controller
             'price' => 'nullable',
         ]);
 
-        $room->update($request->all());
+        $this->mediator->updateRoom($room, $request->all());
 
         return redirect()->route('rooms.index')
             ->with('success', 'Room updated successfully');
@@ -66,7 +72,7 @@ class RoomController extends Controller
 
     public function destroy(Room $room)
     {
-        $room->delete();
+        $this->mediator->deleteRoom($room);
 
         return redirect()->route('rooms.index')
             ->with('success', 'Room deleted successfully');

@@ -1,4 +1,5 @@
 <?php
+// ReservationController.php
 
 namespace App\Http\Controllers;
 
@@ -7,9 +8,17 @@ use Illuminate\Http\Request;
 use App\Models\Room;
 use App\Models\Hotel;
 use App\Models\Customer;
+use App\Mediators\ReservationMediatorInterface;
 
 class ReservationController extends Controller
 {
+    protected $mediator;
+
+    public function __construct(ReservationMediatorInterface $mediator)
+    {
+        $this->mediator = $mediator;
+    }
+
     public function index()
     {
         $reservations = Reservation::all();
@@ -18,11 +27,11 @@ class ReservationController extends Controller
 
     public function create()
     {
-        $hotels = Hotel::all(); // Recupere todos os hotéis do banco de dados
-        $rooms = Room::all();   // Recupere todos os quartos do banco de dados
-        $customers = Customer::all(); // Recupere todos os clientes do banco de dados
-        $statuses = ['pending', 'confirmed', 'cancelled']; // Lista de status predefinidos
-        
+        $hotels = Hotel::all();
+        $rooms = Room::all();
+        $customers = Customer::all();
+        $statuses = ['pending', 'confirmed', 'cancelled'];
+
         return view('reservations.create', compact('hotels', 'rooms', 'customers', 'statuses'));
     }
 
@@ -37,7 +46,7 @@ class ReservationController extends Controller
             'status' => 'nullable',
         ]);
 
-        Reservation::create($request->all());
+        $this->mediator->createReservation($request->all());
 
         return redirect()->route('reservations.index')
             ->with('success', 'Reservation created successfully.');
@@ -48,14 +57,13 @@ class ReservationController extends Controller
         return view('reservations.show', compact('reservation'));
     }
 
-    public function edit($id)
+    public function edit(Reservation $reservation)
     {
-        $reservation = Reservation::findOrFail($id);
         $hotels = Hotel::all();
         $rooms = Room::where('hotel_id', $reservation->hotel_id)->get();
         $customers = Customer::all();
         $statuses = ['pending', 'confirmed', 'cancelled'];
-    
+
         return view('reservations.edit', compact('reservation', 'hotels', 'rooms', 'customers', 'statuses'));
     }
 
@@ -70,7 +78,7 @@ class ReservationController extends Controller
             'status' => 'nullable',
         ]);
 
-        $reservation->update($request->all());
+        $this->mediator->updateReservation($reservation, $request->all());
 
         return redirect()->route('reservations.index')
             ->with('success', 'Reservation updated successfully');
@@ -78,12 +86,11 @@ class ReservationController extends Controller
 
     public function destroy(Reservation $reservation)
     {
-        $reservation->delete();
+        $this->mediator->deleteReservation($reservation);
 
         return redirect()->route('reservations.index')
             ->with('success', 'Reservation deleted successfully');
     }
-    // ReservationController.php
 
     public function getRoomsByHotel($hotel_id)
     {
