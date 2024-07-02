@@ -513,6 +513,8 @@ class ComposerStaticInit7e8c3c14ff33b199b4a0838993eb8423
         'App\\Http\\Controllers\\HotelController' => __DIR__ . '/../..' . '/app/Http/Controllers/HotelController.php',
         'App\\Http\\Controllers\\ReservationController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReservationController.php',
         'App\\Http\\Controllers\\RoomController' => __DIR__ . '/../..' . '/app/Http/Controllers/RoomController.php',
+        'App\\Mediators\\ReservationMediator' => __DIR__ . '/../..' . '/app/Mediators/ReservationMediator.php',
+        'App\\Mediators\\ReservationMediatorInterface' => __DIR__ . '/../..' . '/app/Mediators/ReservationMediatorInterface.php',
         'App\\Models\\Customer' => __DIR__ . '/../..' . '/app/Models/Customer.php',
         'App\\Models\\Hotel' => __DIR__ . '/../..' . '/app/Models/Hotel.php',
         'App\\Models\\Reservation' => __DIR__ . '/../..' . '/app/Models/Reservation.php',

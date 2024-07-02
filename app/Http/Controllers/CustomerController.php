@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Mediators\ReservationMediatorInterface;
+use App\Visitors\CountReservationsVisitor;
 
 class CustomerController extends Controller
 {
@@ -55,7 +56,7 @@ class CustomerController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:customers,email,'.$customer->id,
+            'email' => 'required|email|unique:customers,email,' . $customer->id,
             'phone' => 'nullable',
         ]);
 
@@ -71,5 +72,12 @@ class CustomerController extends Controller
 
         return redirect()->route('customers.index')
             ->with('success', 'Customer deleted successfully');
+    }
+    public function countReservations(Request $request, Customer $customer)
+    {
+        $countVisitor = new CountReservationsVisitor();
+        $count = $countVisitor->visitCustomer($customer);
+
+        return response()->json(['reservation_count' => $count]);
     }
 }

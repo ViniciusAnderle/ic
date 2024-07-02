@@ -13,6 +13,7 @@ class CreateCustomersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('phone')->nullable();
+            $table->integer('reservation_count')->default(0); // Adicionando o campo reservations_count
             $table->timestamps();
         });
     }

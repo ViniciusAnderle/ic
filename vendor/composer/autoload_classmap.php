@@ -11,6 +11,8 @@ return array(
     'App\\Http\\Controllers\\HotelController' => $baseDir . '/app/Http/Controllers/HotelController.php',
     'App\\Http\\Controllers\\ReservationController' => $baseDir . '/app/Http/Controllers/ReservationController.php',
     'App\\Http\\Controllers\\RoomController' => $baseDir . '/app/Http/Controllers/RoomController.php',
+    'App\\Mediators\\ReservationMediator' => $baseDir . '/app/Mediators/ReservationMediator.php',
+    'App\\Mediators\\ReservationMediatorInterface' => $baseDir . '/app/Mediators/ReservationMediatorInterface.php',
     'App\\Models\\Customer' => $baseDir . '/app/Models/Customer.php',
     'App\\Models\\Hotel' => $baseDir . '/app/Models/Hotel.php',
     'App\\Models\\Reservation' => $baseDir . '/app/Models/Reservation.php',

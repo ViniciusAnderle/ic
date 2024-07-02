@@ -6,6 +6,8 @@
             Name: {{ $customer->name }}<br>
             Email: {{ $customer->email }}<br>
             Phone: {{ $customer->phone }}<br>
+            Reservations: {{ $customer->reservation_count }}<br>
+
             <a href="{{ route('customers.show', $customer->id) }}">View</a>
             <a href="{{ route('customers.edit', $customer->id) }}">Edit</a>
             <form action="{{ route('customers.destroy', $customer->id) }}" method="POST">

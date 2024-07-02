@@ -1,5 +1,4 @@
 <?php
-// ReservationController.php
 
 namespace App\Http\Controllers;
 
@@ -8,17 +7,10 @@ use Illuminate\Http\Request;
 use App\Models\Room;
 use App\Models\Hotel;
 use App\Models\Customer;
-use App\Mediators\ReservationMediatorInterface;
+use App\Events\ReservationCreated;
 
 class ReservationController extends Controller
 {
-    protected $mediator;
-
-    public function __construct(ReservationMediatorInterface $mediator)
-    {
-        $this->mediator = $mediator;
-    }
-
     public function index()
     {
         $reservations = Reservation::all();
@@ -46,11 +38,23 @@ class ReservationController extends Controller
             'status' => 'nullable',
         ]);
 
-        $this->mediator->createReservation($request->all());
+        // Criação da reserva
+        $reservation = Reservation::create($request->all());
 
-        return redirect()->route('reservations.index')
-            ->with('success', 'Reservation created successfully.');
+        // Verifica se a reserva foi criada com sucesso
+        if ($reservation) {
+            // Dispara o evento de reserva criada
+            event(new ReservationCreated($reservation));
+
+            return redirect()->route('reservations.index')
+                ->with('success', 'Reservation created successfully.');
+        }
+
+        // Lógica de tratamento de erro, se necessário
+        return redirect()->back()
+            ->with('error', 'Failed to create reservation.');
     }
+
 
     public function show(Reservation $reservation)
     {
@@ -78,7 +82,7 @@ class ReservationController extends Controller
             'status' => 'nullable',
         ]);
 
-        $this->mediator->updateReservation($reservation, $request->all());
+        $reservation->update($request->all());
 
         return redirect()->route('reservations.index')
             ->with('success', 'Reservation updated successfully');
@@ -86,7 +90,7 @@ class ReservationController extends Controller
 
     public function destroy(Reservation $reservation)
     {
-        $this->mediator->deleteReservation($reservation);
+        $reservation->delete();
 
         return redirect()->route('reservations.index')
             ->with('success', 'Reservation deleted successfully');
