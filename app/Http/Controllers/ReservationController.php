@@ -101,4 +101,19 @@ class ReservationController extends Controller
         $rooms = Room::where('hotel_id', $hotel_id)->get();
         return response()->json($rooms);
     }
+    public function confirm(Reservation $reservation)
+    {
+        $reservation->confirm();
+
+        return redirect()->route('reservations.index')
+            ->with('success', 'Reservation confirmed successfully.');
+    }
+
+    public function cancel(Reservation $reservation)
+    {
+        $reservation->cancel();
+
+        return redirect()->route('reservations.index')
+            ->with('success', 'Reservation cancelled successfully.');
+    }
 }

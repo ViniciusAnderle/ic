@@ -41,6 +41,8 @@ Route::delete('/customers/{customer}', [CustomerController::class, 'destroy'])->
 Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations.index');
 Route::get('/reservations/get-rooms/{hotel_id}', [ReservationController::class, 'getRoomsByHotel']);
 Route::get('/reservations/create', [ReservationController::class, 'create'])->name('reservations.create');
+Route::patch('reservations/{reservation}/confirm', [ReservationController::class, 'confirm'])->name('reservations.confirm');
+Route::patch('reservations/{reservation}/cancel', [ReservationController::class, 'cancel'])->name('reservations.cancel');
 Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
 Route::get('/reservations/{reservation}', [ReservationController::class, 'show'])->name('reservations.show');
 Route::get('/reservations/{reservation}/edit', [ReservationController::class, 'edit'])->name('reservations.edit');
