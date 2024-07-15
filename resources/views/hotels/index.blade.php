@@ -1,4 +1,9 @@
 <h1>List of Hotels</h1>
+<form action="{{ route('logout') }}" method="POST">
+    @csrf
+    <button type="submit">Logout</button>
+</form>
+
 <a href="{{ route('hotels.create') }}">Create Hotel</a>
 <ul>
     @foreach($hotels as $hotel)
