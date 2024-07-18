@@ -15,7 +15,7 @@
                 <td>{{ $log->user ? $log->user->name : 'Usuário desconhecido' }}</td>
                 <td>{{ $log->action }}</td>
                 <td>{{ $log->description }}</td>
-                <td>{{ $log->created_at }}</td>
+                <td>{{ \Carbon\Carbon::parse($log->created_at)->format('d/m/Y H:i:s') }}</td>
             </tr>
         @endforeach
     </tbody>
