@@ -11,10 +11,21 @@ use App\Events\ReservationCreated;
 
 class ReservationController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        // Obter todas as reservas
         $reservations = Reservation::all();
-        return view('reservations.index', compact('reservations'));
+
+        // Obter todos os status de reserva únicos
+        $reservationStatuses = Reservation::distinct()->pluck('status')->toArray();
+
+        // Filtrar reservas se o filtro por status estiver definido
+        if ($request->has('reservation_status') && $request->input('reservation_status') !== 'all') {
+            $reservationStatus = $request->input('reservation_status');
+            $reservations = Reservation::where('status', $reservationStatus)->get();
+        }
+
+        return view('reservations.index', compact('reservations', 'reservationStatuses'));
     }
 
     public function create()
