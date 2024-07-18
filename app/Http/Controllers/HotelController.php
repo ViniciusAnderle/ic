@@ -4,17 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Hotel;
 use Illuminate\Http\Request;
-use App\Visitors\SystemLogVisitor;
+use App\Models\SystemLog;
+use Illuminate\Support\Facades\Auth;
 
 class HotelController extends Controller
 {
-    protected $logger;
-
-    public function __construct(SystemLogVisitor $logger)
-    {
-        $this->logger = $logger;
-    }
-
     public function index()
     {
         $hotels = Hotel::all();
@@ -34,14 +28,21 @@ class HotelController extends Controller
             'description' => 'nullable',
         ]);
 
-        // Registrar ação de criação de hotel
-        $this->logger->logAction('create_hotel', 'Created hotel: ' . $request->name);
+        $hotel = new Hotel();
+        $hotel->name = $request->name;
+        $hotel->address = $request->address;
+        $hotel->description = $request->description;
+        $hotel->save();
 
-        // Lógica para armazenar o hotel
-        $hotel = Hotel::create($request->all());
+        // Log de criação de hotel
+        SystemLog::create([
+            'action' => 'create_hotel',
+            'user_id' => Auth::id(),
+            'description' => 'Usuário criou o hotel: ' . $hotel->name,
+        ]);
 
         return redirect()->route('hotels.index')
-            ->with('success', 'Hotel created successfully.');
+            ->with('success', 'Hotel criado com sucesso.');
     }
 
     public function show(Hotel $hotel)
@@ -62,25 +63,34 @@ class HotelController extends Controller
             'description' => 'nullable',
         ]);
 
-        // Registrar ação de atualização de hotel
-        $this->logger->logAction('update_hotel', 'Updated hotel: ' . $hotel->name);
+        $hotel->name = $request->name;
+        $hotel->address = $request->address;
+        $hotel->description = $request->description;
+        $hotel->save();
 
-        // Lógica para atualizar o hotel
-        $hotel->update($request->all());
+        // Log de atualização de hotel
+        SystemLog::create([
+            'action' => 'update_hotel',
+            'user_id' => Auth::id(),
+            'description' => 'Usuário atualizou o hotel: ' . $hotel->name,
+        ]);
 
         return redirect()->route('hotels.index')
-            ->with('success', 'Hotel updated successfully');
+            ->with('success', 'Hotel atualizado com sucesso.');
     }
 
     public function destroy(Hotel $hotel)
     {
-        // Registrar ação de exclusão de hotel
-        $this->logger->logAction('delete_hotel', 'Deleted hotel: ' . $hotel->name);
-
-        // Lógica para excluir o hotel
         $hotel->delete();
 
+        // Log de exclusão de hotel
+        SystemLog::create([
+            'action' => 'delete_hotel',
+            'user_id' => Auth::id(),
+            'description' => 'Usuário excluiu o hotel: ' . $hotel->name,
+        ]);
+
         return redirect()->route('hotels.index')
-            ->with('success', 'Hotel deleted successfully');
+            ->with('success', 'Hotel excluído com sucesso.');
     }
 }
