@@ -8,6 +8,8 @@ use App\Models\Room;
 use App\Models\Hotel;
 use App\Models\Customer;
 use App\Events\ReservationCreated;
+use App\Models\SystemLog;
+use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
 {
@@ -57,6 +59,15 @@ class ReservationController extends Controller
             // Dispara o evento de reserva criada
             event(new ReservationCreated($reservation));
 
+            // Registrar log de criação
+            $user = Auth::user();
+            $logMessage = 'Created reservation: ' . $reservation->id . ' by ' . $user->name;
+            SystemLog::create([
+                'action' => 'create_reservation',
+                'user_id' => $user->id,
+                'description' => $logMessage,
+            ]);
+
             return redirect()->route('reservations.index')
                 ->with('success', 'Reservation created successfully.');
         }
@@ -65,7 +76,6 @@ class ReservationController extends Controller
         return redirect()->back()
             ->with('error', 'Failed to create reservation.');
     }
-
 
     public function show(Reservation $reservation)
     {
@@ -93,18 +103,63 @@ class ReservationController extends Controller
             'status' => 'nullable',
         ]);
 
-        $reservation->update($request->all());
+        // Captura os dados da reserva antes da atualização
+        $oldData = $reservation->getAttributes();
+        $reservation->hotel_id = $request->hotel_id;
+        $reservation->room_id = $request->room_id;
+        $reservation->customer_id = $request->customer_id;
+        $reservation->checkin_date = $request->checkin_date;
+        $reservation->checkout_date = $request->checkout_date;
+        $reservation->status = $request->status;
+        $reservation->save();
+
+        // Captura os dados da reserva após a atualização
+        $newData = $reservation->getAttributes();
+
+        // Registrar log de atualização com as mudanças feitas
+        $changes = [];
+        foreach ($newData as $key => $value) {
+            if ($oldData[$key] !== $value) {
+                $changes[$key] = [
+                    'old' => $oldData[$key],
+                    'new' => $value,
+                ];
+            }
+        }
+
+        // Remove campos de timestamps das mudanças, se presentes
+        unset($changes['updated_at']);
+        unset($changes['created_at']);
+
+        if (count($changes) > 0) {
+            $user = Auth::user();
+            $logMessage = 'Reservation (' . $reservation->id . ') updated by ' . $user->name . '. Changes: ' . json_encode($changes);
+            SystemLog::create([
+                'action' => 'update_reservation',
+                'user_id' => $user->id,
+                'description' => $logMessage,
+            ]);
+        }
 
         return redirect()->route('reservations.index')
-            ->with('success', 'Reservation updated successfully');
+            ->with('success', 'Reservation updated successfully.');
     }
 
     public function destroy(Reservation $reservation)
     {
         $reservation->delete();
 
+        // Registrar log de exclusão
+        $user = Auth::user();
+        $logMessage = 'Deleted reservation: ' . $reservation->id . ' by ' . $user->name;
+        SystemLog::create([
+            'action' => 'delete_reservation',
+            'user_id' => $user->id,
+            'description' => $logMessage,
+        ]);
+
         return redirect()->route('reservations.index')
-            ->with('success', 'Reservation deleted successfully');
+            ->with('success', 'Reservation deleted successfully.');
     }
 
     public function getRoomsByHotel($hotel_id)
@@ -112,6 +167,7 @@ class ReservationController extends Controller
         $rooms = Room::where('hotel_id', $hotel_id)->get();
         return response()->json($rooms);
     }
+
     public function confirm(Reservation $reservation)
     {
         $reservation->confirm();

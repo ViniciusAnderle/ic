@@ -5,18 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Mediators\ReservationMediatorInterface;
-use App\Visitors\CountReservationsVisitor;
-use App\Visitors\SystemLogVisitor;
+use App\Models\SystemLog; // Importe o model de log aqui
+use Illuminate\Support\Facades\Auth;
 
 class CustomerController extends Controller
 {
     protected $mediator;
-    protected $logger;
 
-    public function __construct(ReservationMediatorInterface $mediator, SystemLogVisitor $logger)
+    public function __construct(ReservationMediatorInterface $mediator)
     {
         $this->mediator = $mediator;
-        $this->logger = $logger;
     }
 
     public function index()
@@ -38,10 +36,18 @@ class CustomerController extends Controller
             'phone' => 'nullable',
         ]);
 
-        $this->mediator->createCustomer($request->all());
+        $customer = new Customer();
+        $customer->name = $request->name;
+        $customer->email = $request->email;
+        $customer->phone = $request->phone;
+        $customer->save();
 
-        // Registrar ação de criação de cliente
-        $this->logger->logAction('create_customer', 'Created customer: ' . $request->name);
+        // Log de criação de cliente
+        SystemLog::create([
+            'action' => 'create_customer',
+            'user_id' => Auth::id(),
+            'description' => 'User created customer: ' . $customer->name,
+        ]);
 
         return redirect()->route('customers.index')
             ->with('success', 'Customer created successfully.');
@@ -65,31 +71,61 @@ class CustomerController extends Controller
             'phone' => 'nullable',
         ]);
 
-        $this->mediator->updateCustomer($customer, $request->all());
+        $oldData = $customer->toArray();
 
-        // Registrar ação de atualização de cliente
-        $this->logger->logAction('update_customer', 'Updated customer: ' . $customer->name);
+        $customer->name = $request->name;
+        $customer->email = $request->email;
+        $customer->phone = $request->phone;
+        $customer->save();
+
+        // Log de atualização de cliente
+        $this->logChanges($customer, $oldData, $customer->toArray());
 
         return redirect()->route('customers.index')
             ->with('success', 'Customer updated successfully');
     }
 
+    protected function logChanges($customer, $oldData, $newData)
+    {
+        $changes = [];
+
+        foreach ($newData as $key => $value) {
+            if ($oldData[$key] !== $value) {
+                $changes[$key] = [
+                    'old' => $oldData[$key],
+                    'new' => $value,
+                ];
+            }
+        }
+
+        // Remove campos que não devem ser registrados no log, se necessário
+        unset($changes['updated_at']);
+        unset($changes['created_at']);
+
+        if (count($changes) > 0) {
+            $user = Auth::user();
+            $logMessage = 'Customer (' . $customer->id . ') updated by ' . $user->name . '. Changes: ' . json_encode($changes);
+
+            SystemLog::create([
+                'action' => 'update_customer',
+                'user_id' => $user->id,
+                'description' => $logMessage,
+            ]);
+        }
+    }
+
     public function destroy(Customer $customer)
     {
-        $this->mediator->deleteCustomer($customer);
+        $customer->delete();
 
-        // Registrar ação de exclusão de cliente
-        $this->logger->logAction('delete_customer', 'Deleted customer: ' . $customer->name);
+        // Log de exclusão de cliente
+        SystemLog::create([
+            'action' => 'delete_customer',
+            'user_id' => Auth::id(),
+            'description' => 'User deleted customer: ' . $customer->name,
+        ]);
 
         return redirect()->route('customers.index')
             ->with('success', 'Customer deleted successfully');
-    }
-
-    public function countReservations(Request $request, Customer $customer)
-    {
-        $countVisitor = new CountReservationsVisitor();
-        $count = $countVisitor->visitCustomer($customer);
-
-        return response()->json(['reservation_count' => $count]);
     }
 }

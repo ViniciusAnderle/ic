@@ -12,12 +12,7 @@ use App\Visitors\SystemLogVisitor;
 
 class RegisterController extends Controller
 {
-    protected $logger;
-
-    public function __construct(SystemLogVisitor $logger)
-    {
-        $this->logger = $logger;
-    }
+   
 
     /**
      * Show the application's registration form.
@@ -42,7 +37,6 @@ class RegisterController extends Controller
         event(new Registered($user = $this->create($request->all())));
 
         // Log registration action
-        $this->logger->logAction('register', 'Registered user: ' . $request->name);
 
         return redirect('/login')->with('status', 'Registration successful. Please login.');
     }
