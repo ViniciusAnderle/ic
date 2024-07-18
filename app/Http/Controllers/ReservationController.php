@@ -105,6 +105,8 @@ class ReservationController extends Controller
 
         // Captura os dados da reserva antes da atualização
         $oldData = $reservation->getAttributes();
+
+        // Atualiza os dados da reserva
         $reservation->hotel_id = $request->hotel_id;
         $reservation->room_id = $request->room_id;
         $reservation->customer_id = $request->customer_id;
@@ -116,10 +118,27 @@ class ReservationController extends Controller
         // Captura os dados da reserva após a atualização
         $newData = $reservation->getAttributes();
 
-        // Registrar log de atualização com as mudanças feitas
+        // Log de atualização de reserva com as mudanças feitas
+        $this->logChanges($reservation, $oldData, $newData);
+
+        return redirect()->route('reservations.index')
+            ->with('success', 'Reserva atualizada com sucesso.');
+    }
+
+    /**
+     * Log changes made to a reservation.
+     *
+     * @param  Reservation  $reservation
+     * @param  array  $oldData
+     * @param  array  $newData
+     * @return void
+     */
+    protected function logChanges($reservation, $oldData, $newData)
+    {
         $changes = [];
+
         foreach ($newData as $key => $value) {
-            if ($oldData[$key] !== $value) {
+            if ($oldData[$key] != $value) { // Use != to compare values irrespective of types
                 $changes[$key] = [
                     'old' => $oldData[$key],
                     'new' => $value,
@@ -140,9 +159,6 @@ class ReservationController extends Controller
                 'description' => $logMessage,
             ]);
         }
-
-        return redirect()->route('reservations.index')
-            ->with('success', 'Reservation updated successfully.');
     }
 
     public function destroy(Reservation $reservation)
