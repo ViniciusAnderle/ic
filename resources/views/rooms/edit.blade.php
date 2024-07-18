@@ -1,12 +1,41 @@
-<h1>Edit Room</h1>
-<form action="{{ route('rooms.update', $room->id) }}" method="POST">
-    @csrf
-    @method('PUT')
-    <label>Room Number:</label>
-    <input type="text" name="room_number" value="{{ $room->room_number }}" required><br>
-    <label>Type:</label>
-    <input type="text" name="type" value="{{ $room->type }}" required><br>
-    <label>Rate:</label>
-    <input type="number" name="rate" value="{{ $room->rate }}" required><br>
-    <button type="submit">Update Room</button>
-</form>
+@extends('layouts.app')
+
+@section('content')
+    <div class="container">
+        <h1>Edit Room</h1>
+
+        <form action="{{ route('rooms.update', $room->id) }}" method="POST">
+            @csrf
+            @method('PUT')
+
+            <div class="form-group">
+                <label for="hotel_id">Hotel</label>
+                <select name="hotel_id" id="hotel_id" class="form-control">
+                    @foreach($hotels as $hotel)
+                        <option value="{{ $hotel->id }}" {{ $hotel->id == $room->hotel_id ? 'selected' : '' }}>
+                            {{ $hotel->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="room_number">Room Number</label>
+                <input type="text" name="room_number" id="room_number" class="form-control" value="{{ $room->room_number }}">
+            </div>
+
+            <div class="form-group">
+                <label for="type">Type</label>
+                <input type="text" name="type" id="type" class="form-control" value="{{ $room->type }}">
+            </div>
+
+            <div class="form-group">
+                <label for="price">Price</label>
+                <input type="text" name="price" id="price" class="form-control" value="{{ $room->price }}">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Update Room</button>
+            <a href="{{ route('rooms.index') }}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+@endsection
