@@ -6,6 +6,8 @@ use App\Models\Hotel;
 use Illuminate\Http\Request;
 use App\Models\SystemLog;
 use Illuminate\Support\Facades\Auth;
+use PHPUnit\Event\Telemetry\System;
+use Carbon\Carbon;
 
 class HotelController extends Controller
 {
@@ -63,20 +65,55 @@ class HotelController extends Controller
             'description' => 'nullable',
         ]);
 
+        // Captura os dados do hotel antes da atualização
+        $oldData = $hotel->getAttributes();
+
         $hotel->name = $request->name;
         $hotel->address = $request->address;
         $hotel->description = $request->description;
         $hotel->save();
 
-        // Log de atualização de hotel
-        SystemLog::create([
-            'action' => 'update_hotel',
-            'user_id' => Auth::id(),
-            'description' => 'Usuário atualizou o hotel: ' . $hotel->name,
-        ]);
+        // Captura os dados do hotel após a atualização
+        $newData = $hotel->getAttributes();
+
+        // Log de atualização de hotel com as mudanças feitas
+        $this->logChanges($hotel, $oldData, $newData);
 
         return redirect()->route('hotels.index')
             ->with('success', 'Hotel atualizado com sucesso.');
+    }
+
+    /**
+     * Log changes made to a hotel.
+     *
+     * @param  Hotel  $hotel
+     * @param  array  $oldData
+     * @param  array  $newData
+     * @return void
+     */
+    protected function logChanges($hotel, $oldData, $newData)
+    {
+        $changes = [];
+
+        foreach ($newData as $key => $value) {
+            if ($oldData[$key] !== $value) {
+                $changes[$key] = [
+                    'old' => $oldData[$key],
+                    'new' => $value,
+                ];
+            }
+        }
+        unset($changes['updated_at']); // Remove 'updated_at' from changes if present
+        unset($changes['created_at']); // Remove 'created_at' from changes if present
+        if (count($changes) > 0) {
+            $user = Auth::user();
+            $logMessage = 'Hotel (' . $hotel->id . ') atualizado por ' . $user->name . '. Mudanças: ' . json_encode($changes);
+            SystemLog::create([
+                'action' => 'update_hotel',
+                'user_id' => $user->id,
+                'description' => $logMessage,
+            ]);
+        }
     }
 
     public function destroy(Hotel $hotel)
