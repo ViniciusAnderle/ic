@@ -16,7 +16,6 @@ return array(
     'App\\Http\\Controllers\\ReservationController' => $baseDir . '/app/Http/Controllers/ReservationController.php',
     'App\\Http\\Controllers\\RoomController' => $baseDir . '/app/Http/Controllers/RoomController.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',
-    'App\\Http\\Middleware\\EnsureAuthenticated' => $baseDir . '/app/Http/Middleware/EnsureAuthenticated.php',
     'App\\Listeners\\UpdateCustomerReservationCount' => $baseDir . '/app/Listeners/UpdateCustomerReservationCount.php',
     'App\\Mediators\\ReservationMediator' => $baseDir . '/app/Mediators/ReservationMediator.php',
     'App\\Mediators\\ReservationMediatorInterface' => $baseDir . '/app/Mediators/ReservationMediatorInterface.php',

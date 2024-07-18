@@ -518,7 +518,6 @@ class ComposerStaticInit7e8c3c14ff33b199b4a0838993eb8423
         'App\\Http\\Controllers\\ReservationController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReservationController.php',
         'App\\Http\\Controllers\\RoomController' => __DIR__ . '/../..' . '/app/Http/Controllers/RoomController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
-        'App\\Http\\Middleware\\EnsureAuthenticated' => __DIR__ . '/../..' . '/app/Http/Middleware/EnsureAuthenticated.php',
         'App\\Listeners\\UpdateCustomerReservationCount' => __DIR__ . '/../..' . '/app/Listeners/UpdateCustomerReservationCount.php',
         'App\\Mediators\\ReservationMediator' => __DIR__ . '/../..' . '/app/Mediators/ReservationMediator.php',
         'App\\Mediators\\ReservationMediatorInterface' => __DIR__ . '/../..' . '/app/Mediators/ReservationMediatorInterface.php',

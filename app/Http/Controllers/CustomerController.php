@@ -1,5 +1,4 @@
 <?php
-// CustomerController.php
 
 namespace App\Http\Controllers;
 
@@ -7,14 +6,17 @@ use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Mediators\ReservationMediatorInterface;
 use App\Visitors\CountReservationsVisitor;
+use App\Visitors\SystemLogVisitor;
 
 class CustomerController extends Controller
 {
     protected $mediator;
+    protected $logger;
 
-    public function __construct(ReservationMediatorInterface $mediator)
+    public function __construct(ReservationMediatorInterface $mediator, SystemLogVisitor $logger)
     {
         $this->mediator = $mediator;
+        $this->logger = $logger;
     }
 
     public function index()
@@ -37,6 +39,9 @@ class CustomerController extends Controller
         ]);
 
         $this->mediator->createCustomer($request->all());
+
+        // Registrar ação de criação de cliente
+        $this->logger->logAction('create_customer', 'Created customer: ' . $request->name);
 
         return redirect()->route('customers.index')
             ->with('success', 'Customer created successfully.');
@@ -62,6 +67,9 @@ class CustomerController extends Controller
 
         $this->mediator->updateCustomer($customer, $request->all());
 
+        // Registrar ação de atualização de cliente
+        $this->logger->logAction('update_customer', 'Updated customer: ' . $customer->name);
+
         return redirect()->route('customers.index')
             ->with('success', 'Customer updated successfully');
     }
@@ -70,9 +78,13 @@ class CustomerController extends Controller
     {
         $this->mediator->deleteCustomer($customer);
 
+        // Registrar ação de exclusão de cliente
+        $this->logger->logAction('delete_customer', 'Deleted customer: ' . $customer->name);
+
         return redirect()->route('customers.index')
             ->with('success', 'Customer deleted successfully');
     }
+
     public function countReservations(Request $request, Customer $customer)
     {
         $countVisitor = new CountReservationsVisitor();

@@ -8,9 +8,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Auth\Events\Registered;
+use App\Visitors\SystemLogVisitor;
 
 class RegisterController extends Controller
 {
+    protected $logger;
+
+    public function __construct(SystemLogVisitor $logger)
+    {
+        $this->logger = $logger;
+    }
+
     /**
      * Show the application's registration form.
      *
@@ -32,6 +40,9 @@ class RegisterController extends Controller
         $this->validator($request->all())->validate();
 
         event(new Registered($user = $this->create($request->all())));
+
+        // Log registration action
+        $this->logger->logAction('register', 'Registered user: ' . $request->name);
 
         return redirect('/login')->with('status', 'Registration successful. Please login.');
     }

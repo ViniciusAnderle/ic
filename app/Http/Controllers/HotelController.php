@@ -4,15 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Hotel;
 use Illuminate\Http\Request;
-use App\Mediators\ReservationMediatorInterface;
+use App\Visitors\SystemLogVisitor;
 
 class HotelController extends Controller
 {
-    protected $mediator;
+    protected $logger;
 
-    public function __construct(ReservationMediatorInterface $mediator)
+    public function __construct(SystemLogVisitor $logger)
     {
-        $this->mediator = $mediator;
+        $this->logger = $logger;
     }
 
     public function index()
@@ -34,7 +34,11 @@ class HotelController extends Controller
             'description' => 'nullable',
         ]);
 
-        $this->mediator->createHotel($request->all());
+        // Registrar ação de criação de hotel
+        $this->logger->logAction('create_hotel', 'Created hotel: ' . $request->name);
+
+        // Lógica para armazenar o hotel
+        $hotel = Hotel::create($request->all());
 
         return redirect()->route('hotels.index')
             ->with('success', 'Hotel created successfully.');
@@ -58,7 +62,11 @@ class HotelController extends Controller
             'description' => 'nullable',
         ]);
 
-        $this->mediator->updateHotel($hotel, $request->all());
+        // Registrar ação de atualização de hotel
+        $this->logger->logAction('update_hotel', 'Updated hotel: ' . $hotel->name);
+
+        // Lógica para atualizar o hotel
+        $hotel->update($request->all());
 
         return redirect()->route('hotels.index')
             ->with('success', 'Hotel updated successfully');
@@ -66,7 +74,11 @@ class HotelController extends Controller
 
     public function destroy(Hotel $hotel)
     {
-        $this->mediator->deleteHotel($hotel);
+        // Registrar ação de exclusão de hotel
+        $this->logger->logAction('delete_hotel', 'Deleted hotel: ' . $hotel->name);
+
+        // Lógica para excluir o hotel
+        $hotel->delete();
 
         return redirect()->route('hotels.index')
             ->with('success', 'Hotel deleted successfully');

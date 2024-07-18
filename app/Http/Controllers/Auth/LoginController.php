@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\SystemLog; // ou use App\Models\CustomLog;
 
 class LoginController extends Controller
 {
@@ -29,12 +30,18 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            // Authentication passed...
-            return redirect()->intended('hotels'); // Redirect to the intended page after login
+            $user = Auth::user();
+            SystemLog::create([
+                'action' => 'login',
+                'user_id' => $user->id,
+                'description' => 'Usuário fez login: ' . $user->name,
+            ]);
+
+            return redirect()->intended('hotels');
         }
 
         return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
+            'email' => 'As credenciais fornecidas não correspondem aos nossos registros.',
         ])->withInput($request->only('email'));
     }
 
@@ -46,6 +53,13 @@ class LoginController extends Controller
      */
     public function logout(Request $request)
     {
+        $user = Auth::user();
+        SystemLog::create([
+            'action' => 'logout',
+            'user_id' => $user->id,
+            'description' => 'Usuário fez logout: ' . $user->name,
+        ]);
+
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
