@@ -17,3 +17,17 @@ a{
 .container{
     padding: 15px;
 }
+
+.btn-logout {
+    background-color: #ff0000; /* Exemplo de cor de fundo */
+    color: #ffffff; /* Exemplo de cor do texto */
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 10px;
+}
+
+.btn-logout:hover {
+    background-color: #cc0000; /* Cor de fundo ao passar o mouse */
+}
