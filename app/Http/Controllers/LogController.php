@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\SystemLog; // Verifique se este é o namespace correto para o seu modelo de log
+use Illuminate\Support\Facades\Auth;
 
 class LogController extends Controller
 {
