@@ -1,5 +1,3 @@
-<link rel="stylesheet" href="{{ asset('css/teste.css') }}">
-
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="{{ url('/') }}">MyApp</a>

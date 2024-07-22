@@ -6,6 +6,7 @@
 <div class="container mt-4">
     <h1>Reservation Details</h1>
     <div class="card">
+
         <div class="card-body">
             <p><strong>Hotel:</strong> {{ $reservation->hotel->name }}</p>
             <p><strong>Room:</strong> {{ $reservation->room->room_number }}</p>

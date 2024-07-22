@@ -4,6 +4,8 @@
 @section('content')
 
 <div class="container mt-4">
+<a href="{{ route('reservations.create') }}" class="btn btn-primary">Create Reservation</a>
+
     <!-- Filtro de reservas -->
     <form action="{{ route('reservations.index') }}" method="GET" class="mb-4">
         <div class="form-group">
