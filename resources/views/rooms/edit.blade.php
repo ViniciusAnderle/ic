@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container mt-4">
         <h1>Edit Room</h1>
 
         <form action="{{ route('rooms.update', $room->id) }}" method="POST">
@@ -10,7 +10,7 @@
 
             <div class="form-group">
                 <label for="hotel_id">Hotel</label>
-                <select name="hotel_id" id="hotel_id" class="form-control">
+                <select name="hotel_id" id="hotel_id" class="form-control" required>
                     @foreach($hotels as $hotel)
                         <option value="{{ $hotel->id }}" {{ $hotel->id == $room->hotel_id ? 'selected' : '' }}>
                             {{ $hotel->name }}
@@ -21,7 +21,7 @@
 
             <div class="form-group">
                 <label for="room_number">Room Number</label>
-                <input type="text" name="room_number" id="room_number" class="form-control" value="{{ $room->room_number }}">
+                <input type="text" name="room_number" id="room_number" class="form-control" value="{{ $room->room_number }}" required>
             </div>
 
             <div class="form-group">

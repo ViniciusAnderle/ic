@@ -1,21 +1,24 @@
-<h1>List of Hotels</h1>
-<form action="{{ route('logout') }}" method="POST">
-    @csrf
-    <button type="submit">Logout</button>
-</form>
+@extends('layouts.app')
+@section('title', 'Index Hotel')
 
-<a href="{{ route('hotels.create') }}">Create Hotel</a>
+@section('content')
+<h1>List of Hotels</h1>
+
+
+
+<a href="{{ route('hotels.create') }}" class="btn btn-primary">Create Hotel</a>
 <ul>
     @foreach($hotels as $hotel)
         <li>
             {{ $hotel->name }} - {{ $hotel->address }}
-            <a href="{{ route('hotels.show', $hotel->id) }}">View</a>
-            <a href="{{ route('hotels.edit', $hotel->id) }}">Edit</a>
-            <form action="{{ route('hotels.destroy', $hotel->id) }}" method="POST">
+            <a href="{{ route('hotels.show', $hotel->id) }}" class="btn btn-info">View</a>
+            <a href="{{ route('hotels.edit', $hotel->id) }}" class="btn btn-warning">Edit</a>
+            <form action="{{ route('hotels.destroy', $hotel->id) }}" method="POST" style="display:inline;">
                 @csrf
                 @method('DELETE')
-                <button type="submit">Delete</button>
+                <button type="submit" class="btn btn-danger">Delete</button>
             </form>
         </li>
     @endforeach
 </ul>
+@endsection

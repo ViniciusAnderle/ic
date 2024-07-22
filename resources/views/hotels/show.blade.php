@@ -1,5 +1,3 @@
-<!-- resources/views/hotels/show.blade.php -->
-
 @extends('layouts.app')
 
 @section('content')

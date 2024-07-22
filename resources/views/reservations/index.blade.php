@@ -1,32 +1,45 @@
-<!-- Exemplo de implementação do filtro -->
-<form action="{{ route('reservations.index') }}" method="GET">
-    <label for="reservation_status">Filtrar por Status:</label>
-    <select name="reservation_status" id="reservation_status">
-        <option value="all">Todos</option>
-        @foreach($reservationStatuses as $status)
-            <option value="{{ $status }}">{{ $status }}</option>
-        @endforeach
-    </select>
-    <button type="submit">Filtrar</button>
-</form>
+@extends('layouts.app')
+@section('title', 'Reservations')
 
-<!-- Exibição das reservas filtradas -->
-<ul>
-    @foreach($reservations as $reservation)
-        <li>
-            Hotel: {{ $reservation->hotel->name }}<br>
-            Room: {{ $reservation->room->room_number }}<br>
-            Customer: {{ $reservation->customer->name }}<br>
-            Check-in: {{ $reservation->checkin_date }}<br>
-            Check-out: {{ $reservation->checkout_date }}<br>
-            Status: {{ $reservation->status }}<br>
-            <a href="{{ route('reservations.show', $reservation->id) }}">View</a>
-            <a href="{{ route('reservations.edit', $reservation->id) }}">Edit</a>
-            <form action="{{ route('reservations.destroy', $reservation->id) }}" method="POST">
-                @csrf
-                @method('DELETE')
-                <button type="submit">Delete</button>
-            </form>
-        </li>
-    @endforeach
-</ul>
+@section('content')
+
+<div class="container mt-4">
+    <!-- Filtro de reservas -->
+    <form action="{{ route('reservations.index') }}" method="GET" class="mb-4">
+        <div class="form-group">
+            <label for="reservation_status">Filtrar por Status:</label>
+            <select name="reservation_status" id="reservation_status" class="form-control">
+                <option value="all">Todos</option>
+                @foreach($reservationStatuses as $status)
+                    <option value="{{ $status }}" {{ request('reservation_status') == $status ? 'selected' : '' }}>
+                        {{ ucfirst($status) }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+    </form>
+
+    <!-- Exibição das reservas filtradas -->
+    <ul class="list-group">
+        @foreach($reservations as $reservation)
+            <li class="list-group-item">
+                <strong>Hotel:</strong> {{ $reservation->hotel->name }}<br>
+                <strong>Room:</strong> {{ $reservation->room->room_number }}<br>
+                <strong>Customer:</strong> {{ $reservation->customer->name }}<br>
+                <strong>Check-in:</strong> {{ $reservation->checkin_date }}<br>
+                <strong>Check-out:</strong> {{ $reservation->checkout_date }}<br>
+                <strong>Status:</strong> {{ ucfirst($reservation->status) }}<br>
+                <a href="{{ route('reservations.show', $reservation->id) }}" class="btn btn-info btn-sm">View</a>
+                <a href="{{ route('reservations.edit', $reservation->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                <form action="{{ route('reservations.destroy', $reservation->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+            </li>
+        @endforeach
+    </ul>
+</div>
+
+@endsection

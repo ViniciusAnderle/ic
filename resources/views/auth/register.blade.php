@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <style>
+        .error-message {
+            color: red;
+            font-size: 0.875em;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -21,14 +27,30 @@
             </div>
             <div class="form-group">
                 <label for="password">Password:</label>
-                <input type="password" name="password" id="password" class="form-control" required>
+                <input type="password" name="password" id="password" class="form-control" minlength="8" required>
+                <div id="passwordError" class="error-message"></div>
             </div>
             <div class="form-group">
                 <label for="password_confirmation">Confirm Password:</label>
-                <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" required>
+                <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" minlength="8" required>
             </div>
             <button type="submit" class="btn btn-primary">Register</button>
         </form>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const passwordInput = document.getElementById('password');
+            const passwordError = document.getElementById('passwordError');
+
+            passwordInput.addEventListener('input', function () {
+                if (passwordInput.value.length < 8) {
+                    passwordError.textContent = 'Password must be at least 8 characters long.';
+                } else {
+                    passwordError.textContent = '';
+                }
+            });
+        });
+    </script>
 </body>
 </html>

@@ -54,9 +54,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/reservations/{reservation}/edit', [ReservationController::class, 'edit'])->name('reservations.edit');
     Route::put('/reservations/{reservation}', [ReservationController::class, 'update'])->name('reservations.update');
     Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
+
+    //Rota para acesso aos logs
+    Route::get('/logs', [LogController::class, 'index'])->name('logs.index');
+
 });
 
-// Rotas para Autenticação
 // Rotas de Registro
 Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('register', [RegisterController::class, 'register']);
