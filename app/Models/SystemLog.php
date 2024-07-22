@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Visitors\Visitable;
+use App\Visitors\Visitor;
 
 class SystemLog extends Model
 {
@@ -24,5 +26,9 @@ class SystemLog extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function accept(Visitor $visitor)
+    {
+        $visitor->visitLog($this);
     }
 }
