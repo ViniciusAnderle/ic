@@ -36,6 +36,23 @@ a {
     /* Cor de fundo ao passar o mouse */
 }
 
+.btn-delete {
+    background-color: #ff0000;
+    /* Exemplo de cor de fundo */
+    color: #ffffff;
+    /* Exemplo de cor do texto */
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 10px;
+}
+
+.btn-delete:hover {
+    background-color: #cc0000;
+    /* Cor de fundo ao passar o mouse */
+}
+
 .navbar-nav {
     display: flex;
     justify-content: space-between;
@@ -43,12 +60,12 @@ a {
     margin-top: 10px;
 }
 
-li{
+li {
     background-color: aquamarine;
     padding: 15px;
     margin: 5px;
     max-width: 500px;
     height: max-content;
     border-radius: 25px;
-    
+
 }

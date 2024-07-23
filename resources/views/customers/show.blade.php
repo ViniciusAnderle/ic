@@ -14,6 +14,6 @@
 <form action="{{ route('customers.destroy', $customer->id) }}" method="POST" style="display:inline;">
     @csrf
     @method('DELETE')
-    <button type="submit" class="btn btn-danger">Delete</button>
-</form>
+    <button type="submit" class="btn-delete">Delete</button>
+    </form>
 @endsection

@@ -16,8 +16,8 @@
             <form action="{{ route('hotels.destroy', $hotel->id) }}" method="POST" style="display:inline;">
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="btn btn-danger">Delete</button>
-            </form>
+                <button type="submit" class="btn-delete">Delete</button>
+                </form>
         </li>
     @endforeach
 </ul>
