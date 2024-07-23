@@ -23,4 +23,5 @@
 
     <button type="submit" class="btn-filter">Adicionar hotel</button>
 </form>
+
 @endsection
