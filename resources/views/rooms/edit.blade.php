@@ -36,7 +36,7 @@
             <input type="text" name="price" id="price" class="form-control" value="{{ $room->price }}">
         </div>
 
-        <button type="submit" class="btn btn-primary">Update Room</button>
+        <button type="submit" class="btn-edit">Update Room</button>
         <a href="{{ route('rooms.index') }}" class="btn btn-secondary">Cancel</a>
     </form>
 </div>

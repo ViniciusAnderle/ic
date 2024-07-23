@@ -29,7 +29,7 @@
                                 <textarea class="form-control" id="description" name="description" rows="3">{{ $hotel->description }}</textarea>
                             </div>
 
-                            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                            <button type="submit" class="btn-edit">Salvar Alterações</button>
                             <a href="{{ route('hotels.index') }}" class="btn btn-secondary">Cancelar</a>
                         </form>
                     </div>

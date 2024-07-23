@@ -66,7 +66,7 @@
             </select>
         </div>
 
-        <button type="submit" class="btn btn-primary">Update Reservation</button>
+        <button type="submit" class="btn-edit">Update Reservation</button>
     </form>
 </div>
 
