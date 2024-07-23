@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('title', 'Reservations')
-<link rel="stylesheet" href="{{ asset('css/edit.css') }}">
 
 @section('content')
+<h1>Reservas</h1>
 
 <div class="container mt-4">
 <a href="{{ route('reservations.create') }}" class="btn btn-primary">Criar Reserva</a>

@@ -16,7 +16,12 @@ a {
 }
 
 .container {
+    background-color: aquamarine;
     padding: 15px;
+    margin: 5px;
+    max-width: 500px;
+    height: max-content;
+    border-radius: 25px;
 }
 
 .btn-logout {
@@ -113,17 +118,17 @@ li {
 }
 
 .user {
-    display:grid ;
+    display: grid;
     justify-content: end;
 }
 
-.logout{
-    display:flex ;
+.logout {
+    display: flex;
     justify-content: end;
     padding-bottom: 15px;
 }
 
-.form-control{
+.form-control {
     border-radius: 8px;
     border: solid black 0.1dvw;
     padding: 1.5px;

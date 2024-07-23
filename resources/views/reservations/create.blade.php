@@ -4,7 +4,7 @@
 @section('content')
 
 <div class="container mt-4">
-    <h1>Create Reservation</h1>
+    <h1>Criar reserva</h1>
     <form action="{{ route('reservations.store') }}" method="POST">
         @csrf
         <div class="form-group">

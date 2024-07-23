@@ -3,7 +3,6 @@
 
 @section('content')
 
-<link rel="stylesheet" href="{{ asset('css/edit.css') }}">
 
 <div class="container">
     <div class="row">

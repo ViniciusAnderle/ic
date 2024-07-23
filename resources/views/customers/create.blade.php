@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('title', 'Create Customer')
-<link rel="stylesheet" href="{{ asset('css/edit.css') }}">
 
 @section('content')
 <div class="container">

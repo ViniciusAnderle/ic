@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<link rel="stylesheet" href="{{ asset('css/edit.css') }}">
 
 <div class="container mt-4">
     <h1>Editar quarto</h1>

@@ -1,5 +1,4 @@
 @extends('layouts.app')
-<link rel="stylesheet" href="{{ asset('css/edit.css') }}">
 
 @section('content')
 <h1>Detalhes do Hotel</h1>
