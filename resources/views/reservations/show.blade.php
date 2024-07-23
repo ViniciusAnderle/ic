@@ -2,6 +2,7 @@
 @section('title', 'Reservation Details')
 
 @section('content')
+<link rel="stylesheet" href="{{ asset('css/edit.css') }}">
 
 <div class="container mt-4">
     <h1>Reservation Details</h1>

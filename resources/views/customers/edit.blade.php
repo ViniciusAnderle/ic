@@ -2,6 +2,9 @@
 @section('title', 'Edit Customer')
 
 @section('content')
+
+<link rel="stylesheet" href="{{ asset('css/edit.css') }}">
+
 <div class="container">
     <div class="row">
         <div class="col-md-8 offset-md-2">

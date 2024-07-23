@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Room Details')
+<link rel="stylesheet" href="{{ asset('css/edit.css') }}">
 
 @section('content')
 <div class="container mt-4">

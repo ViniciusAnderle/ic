@@ -1,4 +1,5 @@
 @extends('layouts.app')
+<link rel="stylesheet" href="{{ asset('css/edit.css') }}">
 
 @section('content')
 <div class="container">
@@ -6,20 +7,17 @@
         <div class="card-header">Detalhes do Hotel</div>
 
         <div class="card-body">
-            <div class="form-group">
-                <label for="name">Nome do Hotel:</label>
-                <p>{{ $hotel->name }}</p>
-            </div>
-
-            <div class="form-group">
+            <p> <label for="name">Nome do Hotel:</label>
+                {{ $hotel->name }}
+            </p>
+            <p>
                 <label for="address">Endereço:</label>
-                <p>{{ $hotel->address }}</p>
-            </div>
-
-            <div class="form-group">
+                {{ $hotel->address }}
+            </p>
+            <p>
                 <label for="description">Descrição:</label>
-                <p>{{ $hotel->description }}</p>
-            </div>
+                {{ $hotel->description }}
+            </p>
 
             <a href="{{ route('hotels.edit', $hotel->id) }}" class="btn btn-primary">Editar</a>
             <a href="{{ route('hotels.index') }}" class="btn btn-secondary">Voltar</a>
