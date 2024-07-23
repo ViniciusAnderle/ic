@@ -10,7 +10,7 @@
     <form action="{{ route('reservations.index') }}" method="GET" class="mb-4">
         <div class="form-group">
             <label for="reservation_status">Filtrar por Status:</label>
-            <select name="reservation_status" id="reservation_status" class="form-control">
+            <select name="reservation_status" id="reservation_status" class="reservation-filter">
                 <option value="all">Todos</option>
                 @foreach($reservationStatuses as $status)
                     <option value="{{ $status }}" {{ request('reservation_status') == $status ? 'selected' : '' }}>
@@ -19,7 +19,7 @@
                 @endforeach
             </select>
         </div>
-        <button type="submit" class="btn btn-primary">Filtrar</button>
+        <button type="submit" class="btn-filter">Filtrar</button>
     </form>
 
     <!-- Exibição das reservas filtradas -->

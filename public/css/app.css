@@ -85,3 +85,26 @@ li {
     border-radius: 25px;
 
 }
+.reservation-filter{
+    background-color: #55627b;
+    /* Exemplo de cor de fundo */
+    color: #ffffff;
+    /* Exemplo de cor do texto */
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 10px;
+}
+
+.btn-filter{
+    background-color: #007284;
+    /* Exemplo de cor de fundo */
+    color: #ffffff;
+    /* Exemplo de cor do texto */
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 10px;
+}
