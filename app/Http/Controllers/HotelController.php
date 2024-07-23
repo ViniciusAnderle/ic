@@ -107,7 +107,11 @@ class HotelController extends Controller
         unset($changes['created_at']); // Remove 'created_at' from changes if present
         if (count($changes) > 0) {
             $user = Auth::user();
-            $logMessage = 'Hotel (' . $hotel->id . ') atualizado por ' . $user->name . '. Mudanças: ' . json_encode($changes);
+            $changesString = '';
+            foreach ($changes as $field => $change) {
+                $changesString .= "$field: '{$change['old']}' -> '{$change['new']}'\n";
+            }
+            $logMessage = 'Hotel (' . $hotel->id . ') updated by ' . $user->name . '. Changes: ' . $changesString;
             SystemLog::create([
                 'action' => 'update_hotel',
                 'user_id' => $user->id,

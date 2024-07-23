@@ -152,7 +152,11 @@ class ReservationController extends Controller
 
         if (count($changes) > 0) {
             $user = Auth::user();
-            $logMessage = 'Reservation (' . $reservation->id . ') updated by ' . $user->name . '. Changes: ' . json_encode($changes);
+            $changesString = '';
+            foreach ($changes as $field => $change) {
+                $changesString .= "$field: '{$change['old']}' -> '{$change['new']}'\n";
+            }
+            $logMessage = 'Reservation (' . $reservation->id . ') updated by ' . $user->name . '. Changes: ' . $changesString;
             SystemLog::create([
                 'action' => 'update_reservation',
                 'user_id' => $user->id,

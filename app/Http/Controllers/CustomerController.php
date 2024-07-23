@@ -104,8 +104,11 @@ class CustomerController extends Controller
 
         if (count($changes) > 0) {
             $user = Auth::user();
-            $logMessage = 'Customer (' . $customer->id . ') updated by ' . $user->name . '. Changes: ' . json_encode($changes);
-
+            $changesString = '';
+            foreach ($changes as $field => $change) {
+                $changesString .= "$field: '{$change['old']}' -> '{$change['new']}'\n";
+            }
+            $logMessage = 'Customer (' . $customer->id . ') updated by ' . $user->name . '. Changes: ' . $changesString;
             SystemLog::create([
                 'action' => 'update_customer',
                 'user_id' => $user->id,
