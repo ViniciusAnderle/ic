@@ -2,9 +2,10 @@
 <link rel="stylesheet" href="{{ asset('css/edit.css') }}">
 
 @section('content')
+<h1>Detalhes do Hotel</h1>
+
 <div class="container">
     <div class="card">
-        <div class="card-header">Detalhes do Hotel</div>
 
         <div class="card-body">
             <p> <label for="name">Nome do Hotel:</label>

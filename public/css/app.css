@@ -52,6 +52,7 @@ a {
     background-color: #cc0000;
     /* Cor de fundo ao passar o mouse */
 }
+
 .btn-edit {
     background-color: #557b66;
     /* Exemplo de cor de fundo */
@@ -83,9 +84,11 @@ li {
     max-width: 500px;
     height: max-content;
     border-radius: 25px;
+    list-style: none;
 
 }
-.reservation-filter{
+
+.reservation-filter {
     background-color: #55627b;
     /* Exemplo de cor de fundo */
     color: #ffffff;
@@ -97,7 +100,7 @@ li {
     font-size: 10px;
 }
 
-.btn-filter{
+.btn-filter {
     background-color: #007284;
     /* Exemplo de cor de fundo */
     color: #ffffff;
@@ -107,4 +110,21 @@ li {
     border-radius: 5px;
     cursor: pointer;
     font-size: 10px;
+}
+
+.user {
+    display:grid ;
+    justify-content: end;
+}
+
+.logout{
+    display:flex ;
+    justify-content: end;
+    padding-bottom: 15px;
+}
+
+.form-control{
+    border-radius: 8px;
+    border: solid black 0.1dvw;
+    padding: 1.5px;
 }

@@ -3,11 +3,13 @@
 <link rel="stylesheet" href="{{ asset('css/edit.css') }}">
 
 @section('content')
+<h1>Editar Hotel</h1>
+
     <div class="container">
         <div class="row">
+            
             <div class="col-md-8 offset-md-2">
                 <div class="card">
-                    <div class="card-header">Editar Hotel</div>
 
                     <div class="card-body">
                         <form method="POST" action="{{ route('hotels.update', $hotel->id) }}">

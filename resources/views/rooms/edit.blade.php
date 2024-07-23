@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="{{ asset('css/edit.css') }}">
 
 <div class="container mt-4">
-    <h1>Edit Room</h1>
+    <h1>Editar quarto</h1>
 
     <form action="{{ route('rooms.update', $room->id) }}" method="POST">
         @csrf
@@ -22,22 +22,22 @@
         </div>
 
         <div class="form-group">
-            <label for="room_number">Room Number</label>
-            <input type="text" name="room_number" id="room_number" class="form-control" value="{{ $room->room_number }}" required>
+            <label for="room_number">número do quarto</label>
+            <input type="number" name="room_number" id="room_number" class="form-control" value="{{ $room->room_number }}" required>
         </div>
 
         <div class="form-group">
-            <label for="type">Type</label>
+            <label for="type">Tipo</label>
             <input type="text" name="type" id="type" class="form-control" value="{{ $room->type }}">
         </div>
 
         <div class="form-group">
-            <label for="price">Price</label>
+            <label for="price">Preço</label>
             <input type="text" name="price" id="price" class="form-control" value="{{ $room->price }}">
         </div>
 
-        <button type="submit" class="btn-edit">Update Room</button>
-        <a href="{{ route('rooms.index') }}" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn-edit">Atualizar</button>
+        <a href="{{ route('rooms.index') }}" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
 @endsection
