@@ -54,8 +54,10 @@
                 @endforeach
             </select>
         </div>
+        <br>
+        <a href="{{ route('reservations.index') }}" class="btn btn-secondary">Voltar</a>
 
-        <button type="submit" class="btn btn-primary">Create Reservation</button>
+        <button type="submit" class="btn-filter">Adicionar reserva</button>
     </form>
 </div>
 

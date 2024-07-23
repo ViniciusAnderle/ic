@@ -11,7 +11,7 @@
     <form action="{{ route('reservations.index') }}" method="GET" class="mb-4">
         <div class="form-group">
             <label for="reservation_status">Filtrar por Status:</label>
-            <select name="reservation_status" id="reservation_status" class="reservation-filter">
+            <select name="reservation_status" id="reservation_status" class="form-control">
                 <option value="all">Todos</option>
                 @foreach($reservationStatuses as $status)
                     <option value="{{ $status }}" {{ request('reservation_status') == $status ? 'selected' : '' }}>

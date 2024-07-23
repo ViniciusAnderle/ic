@@ -35,7 +35,7 @@ class ReservationController extends Controller
         $hotels = Hotel::all();
         $rooms = Room::all();
         $customers = Customer::all();
-        $statuses = ['pending', 'confirmed', 'cancelled'];
+        $statuses = ['pendente', 'confirmada', 'cancelada', 'finalizada'];
 
         return view('reservations.create', compact('hotels', 'rooms', 'customers', 'statuses'));
     }
@@ -87,7 +87,7 @@ class ReservationController extends Controller
         $hotels = Hotel::all();
         $rooms = Room::where('hotel_id', $reservation->hotel_id)->get();
         $customers = Customer::all();
-        $statuses = ['pendente', 'confirmada', 'canceldada', 'finalizada'];
+        $statuses = ['pendente', 'confirmada', 'cancelada', 'finalizada'];
 
         return view('reservations.edit', compact('reservation', 'hotels', 'rooms', 'customers', 'statuses'));
     }
