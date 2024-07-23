@@ -11,7 +11,7 @@
             <button id="logout" type="submit" class="btn-logout">Sair</button>
         </form>
         <ul class="navbar-nav ml-auto">
-            <a class="nav-link" href="{{ url('/') }}">Hoteis</a>
+            <a class="nav-link" href="{{ url('/') }}">Hotéis</a>
             <a class="nav-link" href="{{ url('/rooms') }}">Quartos</a>
             <a class="nav-link" href="{{ url('/customers') }}">Clientes</a>
             <a class="nav-link" href="{{ url('/reservations') }}">Reservas</a>

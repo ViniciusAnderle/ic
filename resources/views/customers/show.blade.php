@@ -4,16 +4,16 @@
 
 @section('content')
 @csrf
-<h1>Customer Details</h1>
-<p><strong>Name:</strong> {{ $customer->name }}</p>
+<h1>Dados do cliente</h1>
+<p><strong>Nome:</strong> {{ $customer->name }}</p>
 <p><strong>Email:</strong> {{ $customer->email }}</p>
-<p><strong>Phone:</strong> {{ $customer->phone }}</p>
+<p><strong>Telefone:</strong> {{ $customer->phone }}</p>
 
-<a href="{{ route('customers.index') }}" class="btn btn-secondary">Back to List</a>
-<a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-warning">Edit</a>
+<a href="{{ route('customers.index') }}" class="btn btn-secondary">Voltar</a>
+<a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-warning">Editar</a>
 <form action="{{ route('customers.destroy', $customer->id) }}" method="POST" style="display:inline;">
     @csrf
     @method('DELETE')
-    <button type="submit" class="btn-delete">Delete</button>
+    <button type="submit" class="btn-delete">Excluir</button>
     </form>
 @endsection

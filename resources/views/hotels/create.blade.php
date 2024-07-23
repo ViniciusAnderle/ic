@@ -19,6 +19,8 @@
         <label>Descrição:</label>
         <textarea name="description" class="form-control"></textarea>
     </div>
+    <a href="{{ route('hotels.index') }}" class="btn btn-primary"> Voltar</a>
+
     <button type="submit" class="btn-filter">Adicionar hotel</button>
 </form>
 @endsection

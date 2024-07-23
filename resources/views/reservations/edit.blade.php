@@ -5,15 +5,15 @@
 <link rel="stylesheet" href="{{ asset('css/edit.css') }}">
 
 <div class="container mt-4">
-    <h1>Edit Reservation</h1>
+    <h1>Editar Reserva</h1>
     <form action="{{ route('reservations.update', $reservation->id) }}" method="POST">
         @csrf
         @method('PUT')
 
         <div class="form-group">
-            <label for="hotel_id">Select Hotel:</label>
+            <label for="hotel_id">Selecionar Hotel:</label>
             <select name="hotel_id" id="hotel_id" class="form-control" required>
-                <option value="">Select a hotel</option>
+                <option value="">Selecione o hotel</option>
                 @foreach($hotels as $hotel)
                     <option value="{{ $hotel->id }}" {{ $reservation->hotel_id == $hotel->id ? 'selected' : '' }}>
                         {{ $hotel->name }}
@@ -23,9 +23,9 @@
         </div>
 
         <div class="form-group">
-            <label for="room_id">Select Room:</label>
+            <label for="room_id">Selecionar um quarto:</label>
             <select name="room_id" id="room_id" class="form-control" required>
-                <option value="">Select a room</option>
+                <option value="">Selecione um quarto</option>
                 @foreach($rooms as $room)
                     <option value="{{ $room->id }}" {{ $reservation->room_id == $room->id ? 'selected' : '' }}>
                         {{ $room->room_number }}
@@ -35,7 +35,7 @@
         </div>
 
         <div class="form-group">
-            <label for="customer_id">Select Customer:</label>
+            <label for="customer_id">Selecionar Cliente:</label>
             <select name="customer_id" class="form-control" required>
                 @foreach($customers as $customer)
                     <option value="{{ $customer->id }}" {{ $reservation->customer_id == $customer->id ? 'selected' : '' }}>
@@ -46,12 +46,12 @@
         </div>
 
         <div class="form-group">
-            <label for="checkin_date">Check-in Date:</label>
+            <label for="checkin_date">Check-in:</label>
             <input type="date" name="checkin_date" id="checkin_date" class="form-control" value="{{ $reservation->checkin_date }}" required>
         </div>
 
         <div class="form-group">
-            <label for="checkout_date">Check-out Date:</label>
+            <label for="checkout_date">Check-out:</label>
             <input type="date" name="checkout_date" id="checkout_date" class="form-control" value="{{ $reservation->checkout_date }}" required>
         </div>
 
@@ -66,7 +66,7 @@
             </select>
         </div>
 
-        <button type="submit" class="btn-edit">Update Reservation</button>
+        <button type="submit" class="btn-edit">Atualizar Reserva</button>
     </form>
 </div>
 

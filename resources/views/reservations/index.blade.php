@@ -4,7 +4,7 @@
 @section('content')
 
 <div class="container mt-4">
-<a href="{{ route('reservations.create') }}" class="btn btn-primary">Create Reservation</a>
+<a href="{{ route('reservations.create') }}" class="btn btn-primary">Criar Reserva</a>
 
     <!-- Filtro de reservas -->
     <form action="{{ route('reservations.index') }}" method="GET" class="mb-4">
@@ -27,17 +27,17 @@
         @foreach($reservations as $reservation)
             <li class="list-group-item">
                 <strong>Hotel:</strong> {{ $reservation->hotel->name }}<br>
-                <strong>Room:</strong> {{ $reservation->room->room_number }}<br>
-                <strong>Customer:</strong> {{ $reservation->customer->name }}<br>
+                <strong>Quarto:</strong> {{ $reservation->room->room_number }}<br>
+                <strong>Cliente:</strong> {{ $reservation->customer->name }}<br>
                 <strong>Check-in:</strong> {{ $reservation->checkin_date }}<br>
                 <strong>Check-out:</strong> {{ $reservation->checkout_date }}<br>
                 <strong>Status:</strong> {{ ucfirst($reservation->status) }}<br>
-                <a href="{{ route('reservations.show', $reservation->id) }}" class="btn btn-info btn-sm">View</a>
-                <a href="{{ route('reservations.edit', $reservation->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                <a href="{{ route('reservations.show', $reservation->id) }}" class="btn btn-info btn-sm">Detalhes</a>
+                <a href="{{ route('reservations.edit', $reservation->id) }}" class="btn btn-warning btn-sm">Editar</a>
                 <form action="{{ route('reservations.destroy', $reservation->id) }}" method="POST" style="display:inline;">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn-delete">Delete</button>
+                    <button type="submit" class="btn-delete">Excluir</button>
                     </form>
             </li>
         @endforeach

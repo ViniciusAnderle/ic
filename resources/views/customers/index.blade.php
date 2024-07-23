@@ -2,23 +2,24 @@
 @section('title', 'Index Customer')
 
 @section('content')
-<h1>List of Customers</h1>
+<h1>Lista de clientes</h1>
 
-<a href="{{ route('customers.create') }}" class="btn btn-primary">Create Customer</a>
+<a href="{{ route('customers.create') }}" class="btn btn-primary">Adicionar Cliente</a>
 <ul>
     @foreach($customers as $customer)
     <li>
-        <strong>Name:</strong> {{ $customer->name }}<br>
+        <strong>Nome:</strong> {{ $customer->name }}<br>
         <strong>Email:</strong> {{ $customer->email }}<br>
-        <strong>Phone:</strong> {{ $customer->phone }}<br>
-        <strong>Reservations:</strong> {{ $customer->reservation_count }}<br>
+        <strong>Telefone:</strong> {{ $customer->phone }}<br>
+        <strong>Número de reservas:</strong> {{ $customer->reservation_count }}<br>
 
-        <a href="{{ route('customers.show', $customer->id) }}" class="btn btn-info">View</a>
-        <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-warning">Edit</a>
+        <a href="{{ route('customers.show', $customer->id) }}" class="btn btn-info">Detalhes</a>
+        <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-warning">Editar</a>
         <form action="{{ route('customers.destroy', $customer->id) }}" method="POST" style="display:inline;">
             @csrf
             @method('DELETE')
-            <button type="submit" class="btn-delete">Delete</button>
+
+            <button type="submit" class="btn-delete">Excluir</button>
         </form>
     </li>
     @endforeach

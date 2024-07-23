@@ -30,6 +30,8 @@
             <input type="text" class="form-control" id="price" name="price">
         </div>
         <br>
+        <a href="{{ route('rooms.index') }}" class="btn btn-primary"> Voltar</a>
+
         <button type="submit" class="btn-filter">Adicionar quarto</button>
     </form>
 </div>

@@ -3,7 +3,7 @@
 
 @section('content')
 <h1>Hotéis</h1>
-<a href="{{ route('hotels.create') }}" class="btn btn-primary"> Adicionar novo hotel</a>
+<a href="{{ route('hotels.create') }}" class="btn btn-primary"> Adicionar novo hotél</a>
 
 <ul>
     @foreach($hotels as $hotel)
