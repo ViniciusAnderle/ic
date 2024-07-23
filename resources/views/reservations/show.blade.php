@@ -14,6 +14,7 @@
             <p><strong>Check-in Date:</strong> {{ \Carbon\Carbon::parse($reservation->checkin_date)->format('d/m/Y') }}</p>
             <p><strong>Check-out Date:</strong> {{ \Carbon\Carbon::parse($reservation->checkout_date)->format('d/m/Y') }}</p>
             <p><strong>Status:</strong> {{ ucfirst($reservation->status) }}</p>
+            <a href="{{ route('reservations.edit', $reservation->id) }}" class="btn btn-warning btn-sm">Edit</a>
             <a href="{{ route('reservations.index') }}" class="btn btn-secondary">Back to List</a>
         </div>
     </div>

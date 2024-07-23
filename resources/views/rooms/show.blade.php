@@ -10,6 +10,8 @@
             <p><strong>Room Number:</strong> {{ $room->room_number }}</p>
             <p><strong>Type:</strong> {{ $room->type }}</p>
             <p><strong>Rate:</strong> {{ $room->rate }}</p>
+            <a href="{{ route('rooms.edit', $room->id) }}" class="btn btn-warning btn-sm">Edit</a>
+
             <a href="{{ route('rooms.index') }}" class="btn btn-secondary">Back to List</a>
         </div>
     </div>
