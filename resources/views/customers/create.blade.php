@@ -18,7 +18,7 @@
         </div>
         <div class="form-group">
             <label for="phone" class="control-label">Telefone:</label>
-            <input type="text" name="phone" id="phone" class="form-control" required>
+            <input type="number" name="phone" id="phone" class="form-control" required>
         </div>
         <div class="form-group">
             <br>
